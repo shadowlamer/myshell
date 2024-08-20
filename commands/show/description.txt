@@ -1,0 +1,1 @@
+show			display various device info

@@ -1,0 +1,2 @@
+TODO: write help for show
+Usage: show <subcommand>

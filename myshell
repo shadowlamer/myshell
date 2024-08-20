@@ -1,0 +1,20 @@
+#!/bin/sh
+
+export SHELL_ROOT_DIR="/usr/bin/myshell"
+
+. ${SHELL_ROOT_DIR}/config
+
+trap "" INT
+cd ${HOME}
+cat ${SHELL_ROOT_DIR}/banner
+while read -p "${PROMPT}" COMMAND PARAMS; do
+  if [ -z "${COMMAND}" ]; then
+    true
+  elif [ -f "${SHELL_ROOT_DIR}/commands/${COMMAND}/${COMMAND}" ]; then
+    ${SHELL_ROOT_DIR}/commands/${COMMAND}/${COMMAND} ${PARAMS}
+  else
+    echo "${MSG_NOCOMMAND} ${COMMAND}"
+  fi
+done
+echo
+echo "Bye!"

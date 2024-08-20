@@ -1,0 +1,9 @@
+#!/bin/sh
+
+TARGET="${1:?"Usage: $0 <target> [port]"}"
+PORT="${2:-22}"
+
+DEST_DIR="/usr/bin/myshell"
+
+tar --exclude="$0" --exclude ".[^/]*" -zcvf - . |\
+ssh -p ${PORT} ${TARGET} "mkdir -p ${DEST_DIR} && tar -xzvf - -C ${DEST_DIR} && cd ${DEST_DIR}/commands && ./myshell-update-existing-symlinks"

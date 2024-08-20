@@ -1,0 +1,1 @@
+telnet			communicate with another host using the TELNET protocol

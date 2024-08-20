@@ -1,0 +1,4 @@
+
+PROMPT="$ "
+
+MSG_NOCOMMAND="No such command:"

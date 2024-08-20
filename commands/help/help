@@ -1,0 +1,30 @@
+#!/bin/sh
+
+THIS="$0"
+THIS_DIR=$(dirname $0)
+
+DESCRIPTION_FILE="description.txt"
+HELP_FILE="help.txt"
+
+show_help() {
+cat ${THIS_DIR}/help.txt
+}
+
+if [ "$#" -eq 1 ]; then
+  COMMAND="$1"
+  if [ "${COMMAND}" = "--help" ]; then  # help started with --help. Show our own help.
+    show_help
+  elif [ -f "${SHELL_ROOT_DIR}/commands/${COMMAND}/${COMMAND}" ]; then  # help started with command parameter
+    if [ -f "${SHELL_ROOT_DIR}/commands/${COMMAND}/${COMMAND}/${HELP_FILE}" ]; then  # command has overrided help file, show it
+      cat ${SHELL_ROOT_DIR}/commands/${COMMAND}/${COMMAND}/${HELP_FILE}
+    else  #  try using command embedded help
+      "${SHELL_ROOT_DIR}/commands/${COMMAND}/${COMMAND}" --help
+    fi
+  else  #  no such command
+    echo "Sorry. Can't help you with ${COMMAND}"
+  fi
+else
+  echo "Type \"help <command> to get extended info on command usage.\""
+  echo "Available commands:"
+  find "${SHELL_ROOT_DIR}/commands" -mindepth 2 -maxdepth 2 -name "${DESCRIPTION_FILE}" | sort | xargs cat
+fi

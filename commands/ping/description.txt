@@ -1,0 +1,1 @@
+ping			test the reachability of a host

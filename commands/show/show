@@ -1,0 +1,26 @@
+#!/bin/sh
+
+THIS="$0"
+THIS_DIR=$(dirname $0)
+
+DESCRIPTION_FILE="description.txt"
+
+show_help() {
+  cat ${THIS_DIR}/help.txt
+  echo "Available subcommands:"
+  find "${THIS_DIR}" -mindepth 2 -maxdepth 2 -name "${DESCRIPTION_FILE}" | sort | xargs cat
+}
+
+if [ "$#" -eq "1" ]; then
+  COMMAND="$1"
+  if [ "${COMMAND}" = "--help" ]; then
+    show_help
+  elif [ -f "${THIS_DIR}/${COMMAND}/${COMMAND}" ]; then
+    ${THIS_DIR}/${COMMAND}/${COMMAND}
+  else
+    echo "No such subcommand ${COMMAND}"
+  fi
+else
+  echo "Invalid parameters"
+  show_help
+fi

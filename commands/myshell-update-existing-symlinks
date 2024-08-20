@@ -1,0 +1,18 @@
+#!/bin/sh
+
+find . -maxdepth 1 -mindepth 1 -type d|\
+while read CMD_DIR; do
+  COMMAND=$(basename ${CMD_DIR})
+  if EXISTING=$(which ${COMMAND}); then
+    SYMLINK="${CMD_DIR}/${COMMAND}"
+    if [ -h "${SYMLINK}" ]; then
+      echo "Updating symlink ${EXISTING} --> ${SYMLINK}"
+      ln -fs ${EXISTING} ${SYMLINK}
+    elif [ -f "${SYMLINK}" ]; then
+      echo "${SYMLINK} is a custom script. Skkipping."
+    else
+      echo "Creating symlink ${EXISTING} --> ${SYMLINK}"
+      ln -s ${EXISTING} ${SYMLINK}
+    fi
+  fi
+done

@@ -1,0 +1,1 @@
+ssh			execute commands on a remote machine
